@@ -198,7 +198,7 @@ int main(SceSize args, void *argp)
   char rom_filename[256];
 
   pspDebugScreenInitEx((void*)(0x44000000),PSP_DISPLAY_PIXEL_FORMAT_5551, 1);
-  //Overclock 
+
   scePowerSetClockFrequency(333, 333, 166);
   
   SetupCallbacks();
@@ -255,7 +255,7 @@ if (NDS_LoadROM( rom_filename  , MC_TYPE_AUTODETECT, 1, cflash_disk_image_file) 
   
 
 //    SDL_ShowCursor(SDL_DISABLE);
-
+// todo: look into above
  
   
   while(!sdl_quit) {
