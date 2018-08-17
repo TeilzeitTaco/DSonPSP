@@ -85,8 +85,8 @@ void DoConfig()
 		pspDebugScreenPrintf("\n");
 		pspDebugScreenPrintf("\n");
 		pspDebugScreenPrintf("  DSonPSP configuration\n\n");
-		pspDebugScreenPrintf("  When you have finished your configuration, press START \n\n");
-		pspDebugScreenPrintf("  Lang config: 0 = JAP, 1 = ENG, 2 = FRE, 3 = GER,\n");
+		pspDebugScreenPrintf("  When you have finished, press START \n\n");
+		pspDebugScreenPrintf("  Language config: 0 = JAP, 1 = ENG, 2 = FRE, 3 = GER,\n");
 		pspDebugScreenPrintf("  4 = ITA, 5 = SPA, 6 = CHI, 7 = RES\n");
 		pspDebugScreenPrintf("\n");
 		pspDebugScreenPrintf("\n");
@@ -301,9 +301,9 @@ void DSEmuGui(char *path,char *out)
 		pspDebugScreenSetXY(1, 0);
 		pspDebugScreenPrintf("\n");
 		pspDebugScreenPrintf("\n");
-		pspDebugScreenPrintf("  Welcome to %s Based on *DeSmuMe*\n\n");
-		pspDebugScreenPrintf("  press CROSS to launch your game \n\n");
-		pspDebugScreenPrintf("  press SQUARE now to exit :=X \n\n");
+		pspDebugScreenPrintf("  Welcome to %s Based on *MelonDS*\n\n");
+		pspDebugScreenPrintf("  press X to launch your game \n\n");
+		pspDebugScreenPrintf("  press SQUARE to exit :=X \n\n");
 		pspDebugScreenPrintf("  ROM path %s \n\n",tmp);
 		DisplayFileList();
 		if(sceCtrlPeekBufferPositive(&pad, 1))
