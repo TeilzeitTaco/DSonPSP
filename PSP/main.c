@@ -1,8 +1,10 @@
-/* main.c - this file is part of DeSmuME
+/* main.c
  *
  * Copyright (C) 2006,2007 DeSmuME Team
  * Copyright (C) 2007 Pascal Giard (evilynux)
  * Copyright (C) 2009 Yoshihiro (DsonPSP)
+ * Modified under fair use by TheMrIron2 for DSonPSP with MelonDS
+ *
  * This file is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
@@ -25,19 +27,19 @@
 #include <pspvfpu.h>
 #include <stdio.h>
 #include "video.h"
-#include "MMU.h"
-#include "NDSSystem.h"
-#include "cflash.h"
-#include "debug.h"
-#include "sndsdl.h"
-#include "ctrlssdl.h"
-#include "render3D.h"
-#include "gdbstub.h"
+//#include "MMU.h"
+#include "NDS.h"
+//#include "cflash.h"
+//#include "debug.h"
+//#include "sndsdl.h"
+//#include "ctrlssdl.h"
+#include "GPU3D.h"
+//#include "gdbstub.h"
 #include "FrontEnd.h"
 #include "Version.h"
 #include <GL/gl.h>
 #include <GL/glu.h>
-
+// Todo: figure out what Melon stuff to include, replace desmume code
 
 //PSP_MODULE_INFO("DSOnPSP", 0, 1, 1);
 //PSP_MAIN_THREAD_ATTR(PSP_THREAD_ATTR_VFPU | PSP_THREAD_ATTR_USER);
@@ -73,6 +75,7 @@ u32 opengl_2d = 0;
 #include <pspgu.h>
 #include <pspgum.h>
 #include <psprtc.h>
+// Why wasn't this included with everything else???
 
 SoundInterface_struct *SNDCoreList[] = {
   &SNDDummy,
@@ -167,12 +170,12 @@ void DSonpspExec()
 	
     // Update mouse position and click
     if(mouse.down) {
-		NDS_setTouchPos(mouse.x, mouse.y);
+		NDS_setTouchPos(mouse.x, mouse.y); // from NDSSystem.h
 	}
 	
     if(mouse.click)
       { 
-        NDS_releasTouch();
+        NDS_releasTouch(); // Intelligent enough to write an emulator but not intelligent enough to spell
         mouse.click = FALSE;
       }
 
@@ -182,7 +185,7 @@ void DSonpspExec()
 	NDS_exec(FALSE);
 
 	if ( enable_sound) {
-		SPU_Emulate();
+		SPU_Emulate(); // SPU.h
 	}
 
 }
