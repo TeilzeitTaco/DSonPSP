@@ -170,12 +170,12 @@ void DSonpspExec()
 	
     // Update mouse position and click
     if(mouse.down) {
-		NDS_setTouchPos(mouse.x, mouse.y); // from NDSSystem.h
+		TouchScreen(mouse.x, mouse.y);
 	}
 	
     if(mouse.click)
       { 
-        NDS_releasTouch(); // Intelligent enough to write an emulator but not intelligent enough to spell
+        ReleaseScreen();
         mouse.click = FALSE;
       }
 
@@ -185,7 +185,7 @@ void DSonpspExec()
 	NDS_exec(FALSE);
 
 	if ( enable_sound) {
-		SPU_Emulate(); // SPU.h
+		Start(); // guessed from SPU.h
 	}
 
 }
@@ -245,7 +245,7 @@ int main(SceSize args, void *argp)
  mmu_select_savetype(savetype, &savetype, &savesize);
 
 
-if (NDS_LoadROM( rom_filename  , MC_TYPE_AUTODETECT, 1, cflash_disk_image_file) < 0) {
+if (LoadROM( rom_filename  , MC_TYPE_AUTODETECT, 1, cflash_disk_image_file) < 0) {
     SceCtrlData pad;
 	printf("Error loading %s\n", rom_filename);
 	sceKernelDelayThread(100000);
@@ -275,13 +275,13 @@ if (NDS_LoadROM( rom_filename  , MC_TYPE_AUTODETECT, 1, cflash_disk_image_file) 
 
 
 	if ( enable_sound) {
-		SPU_Emulate();
+		Start(); //replacing SPU_Emulate
 	}
 
 }
 
-  SDL_Quit();
-  NDS_DeInit();
+  SDL_Quit(); // ?
+  DeInit();
   return 0;
 }
 
