@@ -17,7 +17,7 @@ int val = 0;
 
 
 #define SLICE_SIZE 64
-#define	FRAMESIZE	0x44000			//in byte
+#define	FRAMESIZE  0x44000			//in byte
 #define VRAM_START 0x4000000
 #define VRAM_SIZE  0x00200000
 
@@ -40,7 +40,7 @@ void FPS()
 
 	pspDebugScreenSetXY(0,5);
 	pspDebugScreenPrintf("FPS %d.%03d V0.6",(int)curr_fps,(int)((curr_fps-(int)curr_fps) * 1000.0f));
-    gettimeofday(&time_slices[val & 15],0);
+    	gettimeofday(&time_slices[val & 15],0);
 
 		val++;
 
@@ -85,7 +85,7 @@ void GuInit()
    int size;
 
 	fbp0 = getStaticVramBuffer(BUF_WIDTH,SCR_HEIGHT,GU_PSM_8888);
-	fbp1 = getStaticVramBuffer(BUF_WIDTH,SCR_HEIGHT,GU_PSM_8888);
+	fbp1 = getStaticVramBuffer(BUF_WIDTH,SCR_HEIGHT,GU_PSM_8888); // todo; double buffering necessary?
 	zbp = getStaticVramBuffer(BUF_WIDTH,SCR_HEIGHT,GU_PSM_4444);
 
    sceGuInit(); 
@@ -100,7 +100,7 @@ void GuInit()
   sceGuDepthRange(0xc350, 0x2710);
   sceGuDisable(GU_ALPHA_TEST);
   sceGuBlendFunc(GU_ADD, GU_SRC_ALPHA, GU_ONE_MINUS_SRC_ALPHA, 0, 0);
-  sceGuEnable(GU_BLEND); // todo: hmm
+  sceGuEnable(GU_BLEND); // todo: ?
   sceGuDisable(GU_DEPTH_TEST);
   sceGuEnable(GU_CULL_FACE);
   sceGuDisable(GU_LIGHTING);
