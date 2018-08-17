@@ -1,31 +1,31 @@
 
 TARGET = DsOnPsp
 OBJS =\
-	./melon_core/arm_instructions.o \
-	./melon_core/armcpu.o \
-	./melon_core/bios.o \
-	./melon_core/cflash.o \
-	./melon_core/cp15.o \
-	./melon_core/ctrlssdl.o \
-	./melon_core/debug.o \
-	./melon_core/Disassembler.o \
-	./melon_core/decrypt.o \
+	./melon_core/ARM_InstrTable.o \
+	./melon_core/ARM.o \
+	./melon_core/ARMInterpreter_ALU.o \
+	./melon_core/ARMInterpreter_Branch.o \
+	./melon_core/ARMInterpreter_LoadStore.o \
+	./melon_core/ARMInterpreter.o \
+	./melon_core/Config.o \
+	./melon_core/CP15.o \
+	./melon_core/DMA.o \
 	./melon_core/FIFO.o \
-	./melon_core/fs-psp.o \
-	./melon_core/gfx3d.o \
 	./melon_core/GPU.o \
-	./melon_core/matrix.o \
-	./melon_core/mc.o \
-	./melon_core/MMU.o \
-	./melon_core/NDSSystem.o \
-	./melon_core/render3D.o \
-	./melon_core/rtc.o \
+	./melon_core/GPU2D.o \
+	./melon_core/GPU3D_Soft.o \
+	./melon_core/GPU_3D.o \
+	./melon_core/melon_fopen.o \
+	./melon_core/NDS.o \
+	./melon_core/NDSCart.o \
+	./melon_core/Platform.o \
+	./melon_core/RTC.o \
 	./melon_core/ROMReader.o \
-	./melon_core/saves.o \
-	./melon_core/sndsdl.o \
+	./melon_core/SPI.o \
 	./melon_core/SPU.o \
-	./melon_core/thumb_instructions.o \
-	./melon_core/wifi.o \
+	./melon_core/types.o \
+	./melon_core/version.o \
+	./melon_core/Wifi.o \
 	./PSP/Gudraw.o \
 	./PSP/vram.o \
 	./PSP/FrontEnd.o \
