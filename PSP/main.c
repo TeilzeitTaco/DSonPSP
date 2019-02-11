@@ -98,6 +98,37 @@ const char *save_type_names[] = {
     NULL
 };
 
+enum colors {
+  RED =  0xFF0000FF,
+  GREEN =  0xFF00FF00,
+  BLUE =  0xFFFF0000,
+  WHITE =  0xFFFFFFFF,
+  LITEGRAY = 0xFFBFBFBF,
+  GRAY =  0xFF7F7F7F,
+  DARKGRAY = 0xFF3F3F3F,
+  BLACK = 0xFF000000,
+};
+
+void printError() {
+    pspDebugScreenSetXY(32, pspDebugScreenGetY());
+
+    pspDebugScreenPrintf("[");
+    pspDebugScreenSetTextColor(RED);
+    pspDebugScreenPrintf("ERROR");
+    pspDebugScreenSetTextColor(0xffffffff);
+    pspDebugScreenPrintf("]\n");
+}
+
+void printOK() {
+    pspDebugScreenSetXY(32, pspDebugScreenGetY());
+
+    pspDebugScreenPrintf("[");
+    pspDebugScreenSetTextColor(GREEN);
+    pspDebugScreenPrintf("OK");
+    pspDebugScreenSetTextColor(0xffffffff);
+    pspDebugScreenPrintf("]\n");
+}
+
 void Gu_draw() {
     int i;
     PspImage *image;
@@ -171,37 +202,38 @@ int main(SceSize args, void *argp) {
 
     cflash_disk_image_file = NULL;
 
-    pspDebugScreenPrintf("Initalizing gu... ");
+    pspDebugScreenPrintf("Initalizing PSP graphics... ");
     GuInit(); // <-- PPSSPP crashes in here
-    pspDebugScreenPrintf("OK\n");
+    printOK();
 
-    pspDebugScreenPrintf("Creating nds config... ");
+    pspDebugScreenPrintf("Creating NDS config... ");
     NDS_FillDefaultFirmwareConfigData(&fw_config);
-    pspDebugScreenPrintf("OK\n");
+    printOK();
 
-    pspDebugScreenPrintf("Initalizing nds... ");
+    pspDebugScreenPrintf("Initalizing NDS... ");
     NDS_Init(arm9_memio, &arm9_ctrl_iface, arm7_memio, &arm7_ctrl_iface);
-    pspDebugScreenPrintf("OK\n");
+    printOK();
 
     // Create the dummy firmware
     pspDebugScreenPrintf("Creating dummy firmware... ");
     NDS_CreateDummyFirmware(&fw_config);
-    pspDebugScreenPrintf("OK\n");
+    printOK();
 
     if (enable_sound) {
         pspDebugScreenPrintf("Initalizing sound... ");
         SPU_ChangeSoundCore(SNDCORE_SDL, 735 * 4);
-        pspDebugScreenPrintf("OK\n");
+        printOK();
     }
 
     pspDebugScreenPrintf("Setting save type... ");
     mmu_select_savetype(savetype, &savetype, &savesize);
-    pspDebugScreenPrintf("OK\n");
+    printOK();
 
     pspDebugScreenPrintf("Loading ROM: %s... ", rom_filename);
     if (NDS_LoadROM(rom_filename, MC_TYPE_AUTODETECT, 1, cflash_disk_image_file) < 0) {
         SceCtrlData pad;
-        printf("\nError loading %s!\n", rom_filename);
+        printError();
+        printf("Error loading %s!\n", rom_filename);
         sceKernelDelayThread(100000);
 
         // Wait for input, then end
@@ -210,7 +242,7 @@ int main(SceSize args, void *argp) {
         } while (pad.Buttons == 0);
         sceKernelExitGame();
     }
-    pspDebugScreenPrintf("OK\n");
+    printOK();
 
     execute = TRUE;
 

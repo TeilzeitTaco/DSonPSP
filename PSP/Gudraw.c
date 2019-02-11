@@ -85,7 +85,7 @@ void GuInit() {
 
     sceGuStart(GU_DIRECT,List);
     sceGuDrawBuffer(GU_PSM_5551,fbp0,BUF_WIDTH);
-    sceGuDispBuffer(SCR_WIDTH,SCR_HEIGHT,fbp1,BUF_WIDTH);
+    sceGuDispBuffer(SCR_WIDTH,SCR_HEIGHT,fbp1,BUF_WIDTH); // <-- PPSSPP crashes here
     sceGuDepthBuffer(zbp,BUF_WIDTH);
     sceGuDisable(GU_TEXTURE_2D);
     sceGuOffset(0, 0);
