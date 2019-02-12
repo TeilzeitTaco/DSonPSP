@@ -193,11 +193,11 @@ int main(SceSize args, void *argp) {
     setupCallbacks();
 
     // this is our gui (frontend.h)
-    DSEmuGui(argp, rom_filename);
+    mainMenu(argp, rom_filename);
     pspDebugScreenClear();
 
     // This is the config screen
-    DoConfig();
+    doConfig();
     pspDebugScreenClear();
 
     cflash_disk_image_file = NULL;

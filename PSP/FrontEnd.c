@@ -58,7 +58,7 @@ int selpos=0;
 char app_path[128];
 char romname[256];
 
-void InitConfigParms() {
+void initConfigParms() {
 	int c=0;
 
 	strcpy(configparms[c].name, "Screen <--> SWAP");
@@ -80,8 +80,8 @@ void InitConfigParms() {
 	totalconfig = c;
 }
 
-void DisplayConfigParms() {
-	int c;
+void printConfigParms() {
+	int c=0;
 
 	for (c=0; c<totalconfig; c++) {
 		if (selposconfig == c) {
@@ -94,7 +94,7 @@ void DisplayConfigParms() {
 	}
 }
 
-void DoConfig() {
+void doConfig() {
 	int done=0;
 
 	SceCtrlData pad, oldPad;
@@ -104,7 +104,7 @@ void DoConfig() {
 		sceDisplayWaitVblankStart();
 
 		pspDebugScreenSetTextColor(0xffffffff);
-		pspDebugScreenSetXY(0, 3);
+		pspDebugScreenSetXY(1, 0);
 
 		pspDebugScreenPrintf("\n\n");
 		pspDebugScreenPrintf("  DSonPSP configuration\n\n");
@@ -113,17 +113,17 @@ void DoConfig() {
 		pspDebugScreenPrintf("  4 = ITA, 5 = SPA, 6 = CHI, 7 = RES\n");
 		pspDebugScreenPrintf("\n\n");
 
-		InitConfigParms();
-		DisplayConfigParms();
+		initConfigParms();
+		printConfigParms();
 
 		if (sceCtrlPeekBufferPositive(&pad, 1)) {
 			if (pad.Buttons != oldPad.Buttons) {
 				if(pad.Buttons & PSP_CTRL_LEFT) {
-					if(strcmp(configparms[selposconfig].name, "language")== 0) {
+					if(!strcmp(configparms[selposconfig].name, "language")) {
 						configparms[selposconfig].var = langposconfig--;
 						if(langposconfig == -1)langposconfig = 0;
 					} else {
-						if(strcmp(configparms[selposconfig].name, "frameskip")== 0) {
+						if(!strcmp(configparms[selposconfig].name, "frameskip")) {
 							configparms[selposconfig].var = frameposconfig--;
 							if(frameposconfig == -1)frameposconfig = 0;
 						} else {
@@ -133,11 +133,11 @@ void DoConfig() {
 				}
 
 				if(pad.Buttons & PSP_CTRL_RIGHT) {
-					if(strcmp(configparms[selposconfig].name, "language")== 0) {
+					if(!strcmp(configparms[selposconfig].name, "language")) {
 						configparms[selposconfig].var = langposconfig++;
 						if(langposconfig == 8)langposconfig = 7;
 					} else
-					if(strcmp(configparms[selposconfig].name, "frameskip")== 0) {
+					if(!strcmp(configparms[selposconfig].name, "frameskip")) {
 						configparms[selposconfig].var = frameposconfig++;
 						if(frameposconfig == 10)frameposconfig = 9;
 					} else {
@@ -164,19 +164,19 @@ void DoConfig() {
 
 //5SM2SF // The f*ck is this?
 
-void ClearFileList() {
+void clearFileList() {
 	filelist.cnt =0;
 }
 
-int HasExtension(char *filename) {
+int hasExtension(char *filename) {
 	if(filename[strlen(filename)-4] == '.') {
 		return 1;
 	}
 	return 0;
 }
 
-void GetExtension(const char *srcfile,char *outext) {
-	if(HasExtension((char *)srcfile)){
+void getExtension(const char *srcfile,char *outext) {
+	if(hasExtension((char *)srcfile)){
 		strcpy(outext, srcfile + strlen(srcfile) - 3);
 	} else {
 		strcpy(outext, "");
@@ -188,9 +188,9 @@ int getExtId(const char *szFilePath) {
 
 	if ((pszExt = strrchr(szFilePath, '.'))) {
 		pszExt++;
-		int i;
+		int i=0;
 
-		for (i = 0; stExtentions[i].nExtId != EXT_UNKNOWN; i++) {
+		for (i=0; stExtentions[i].nExtId != EXT_UNKNOWN; i++) {
 			if (!stricmp(stExtentions[i].szExt,pszExt)) {
 				return stExtentions[i].nExtId;
 			}
@@ -199,8 +199,8 @@ int getExtId(const char *szFilePath) {
 	return EXT_UNKNOWN;
 }
 
-void GetFileList(const char *root) {
-	int dfd;
+void getFileList(const char *root) {
+	int dfd=0;
 	dfd = sceIoDopen(root);
 
 	if (dfd > 0) {
@@ -220,9 +220,8 @@ void GetFileList(const char *root) {
 	}
 }
 
-void DisplayFileList() {
-	int c, x, y;
-	x=28; y=32;
+void displayFileList() {
+	int c=0;
 	for (c=0; c<filelist.cnt; c++) {
 		if (selpos == c) {
 			pspDebugScreenSetTextColor(0x0000ffff);
@@ -230,21 +229,20 @@ void DisplayFileList() {
 			pspDebugScreenSetTextColor(0xffffffff);
 		}
 
-		pspDebugScreenPrintf("%s\n",filelist.fname[c].name);
-		y+=10;
+		pspDebugScreenPrintf("  %s\n",filelist.fname[c].name);
 	}
 }
 
-void DSEmuGui(char *path,char *out) {
+void mainMenu(char *path, char *out) {
 	char tmp[256];
 	SceCtrlData pad, oldPad;
 
-	ClearFileList();
+	clearFileList();
 	pspDebugScreenSetXY(0,0);
 
 	getcwd(app_path,256);
 	sprintf(tmp, "%s/NDSROM", app_path);
-	GetFileList(tmp);
+	getFileList(tmp);
 
 	while(1) {
 		sceDisplayWaitVblankStart();
@@ -256,9 +254,9 @@ void DSEmuGui(char *path,char *out) {
 		pspDebugScreenPrintf("  Welcome to DSonPSP | Based on *DeSmuMe*\n\n");
 		pspDebugScreenPrintf("  press CROSS to launch your game\n\n");
 		pspDebugScreenPrintf("  press SQUARE now to exit :=X\n\n");
-		pspDebugScreenPrintf("  ROM path: %s\n\n",tmp);
+		pspDebugScreenPrintf("  ROM path: %s\n\n\n",tmp);
 
-		DisplayFileList();
+		displayFileList();
 
 		if (sceCtrlPeekBufferPositive(&pad, 1)) {
 			if (pad.Buttons != oldPad.Buttons) {
